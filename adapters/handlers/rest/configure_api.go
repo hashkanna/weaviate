@@ -125,6 +125,7 @@ import (
 	modtransformers "github.com/weaviate/weaviate/modules/text2vec-transformers"
 	modvoyageai "github.com/weaviate/weaviate/modules/text2vec-voyageai"
 	modweaviateembed "github.com/weaviate/weaviate/modules/text2vec-weaviate"
+	modqwen "github.com/weaviate/weaviate/modules/text2vec-qwen"
 	modusagegcs "github.com/weaviate/weaviate/modules/usage-gcs"
 	"github.com/weaviate/weaviate/usecases/auth/authentication/apikey"
 	"github.com/weaviate/weaviate/usecases/auth/authentication/composer"
@@ -1579,6 +1580,14 @@ func registerModules(appState *state.State) error {
 		appState.Logger.
 			WithField("action", "startup").
 			WithField("module", modweaviateembed.Name).
+			Debug("enabled module")
+	}
+
+	if _, ok := enabledModules[modqwen.Name]; ok {
+		appState.Modules.Register(modqwen.New())
+		appState.Logger.
+			WithField("action", "startup").
+			WithField("module", modqwen.Name).
 			Debug("enabled module")
 	}
 
